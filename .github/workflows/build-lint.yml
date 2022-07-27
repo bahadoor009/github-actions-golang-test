@@ -1,14 +1,11 @@
-name: CICD
+name: BUILD FLOW
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  push:
-    branches:
-    - main
   pull_request:
     branches:
-    - main
+    - "*"
     
 jobs:
   # The "build" workflow
@@ -25,34 +22,21 @@ jobs:
     - name: Setup Go
       uses: actions/setup-go@v2
       with:
-        go-version: '1.14.0' # The Go version to download (if necessary) and use.
+        go-version: '1.18.0' # The Go version to download (if necessary) and use.
     
     # Install all the dependencies
     - name: Install dependencies
       run: |
         go version
         go get -u golang.org/x/lint/golint
+        go get
         
     # Run build of the application
     - name: Run build
       run: go build . 
       
     # Run vet & lint on the code
-    - name: Run vet & lint
+    - name: Run Linting
       run: |
         go vet .
         golint .
-    
-    # Run testing on the code
-    - name: Run testing
-      run: cd test && go test -v
-    
-    # Send slack notification
-    - name: Send slack notification
-      uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # selectable (default: repo,message)
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-      if: always() # Pick up events even if the job fails or is canceled.
