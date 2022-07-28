@@ -10,7 +10,7 @@ import (
 func TestDummFunc(t *testing.T) {
 	testcases := []int{
 	 5,
-	 10
+	 10,
 	}
 
 	for _, test := range testcases {
