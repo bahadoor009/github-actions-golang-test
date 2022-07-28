@@ -1,10 +1,7 @@
 package main
 
 import (
-	"context"
-	"os"
 	"testing"
-	"time"
 )
 
 func TestDummFunc(t *testing.T) {
@@ -14,8 +11,8 @@ func TestDummFunc(t *testing.T) {
 	}
 
 	for _, test := range testcases {
-		if output := DummyFunc(test); !Compare(output, test * 100) {
-			t.Errorf("Output %v not equal to expected %v", output)
+		if output := DummyFunc(test); output != test * 100 {
+			t.Errorf("Output %v not equal to expected", output)
 		}
 	}
 }
