@@ -1,5 +1,5 @@
 package main
-import "fmt"
-func main() {
-    fmt.Println("Hello World!")
+
+func DummyFunc(num int) {
+	return num * 100
 }
