@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  build:
+  Build-Workflow:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -22,14 +22,28 @@ jobs:
     - name: Test
       run: go test -v test.go
       
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
+  Linting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Super-Linter
+      uses: github/super-linter@v4.9.5
+      env:
+        DEFAULT BRANCH: main
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+ 
+  SonarCloudScan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup SonarScan
+    - uses: sonarsource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-         projectBaseDir: .
-         args: >
+        projectBaseDir: .
+        args: >
           -Dsonar.organization=bahadoor009
           -Dsonar.projectKey=bahadoor009_github-actions-golang-test
 
