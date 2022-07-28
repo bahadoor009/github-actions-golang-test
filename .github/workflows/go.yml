@@ -2,37 +2,34 @@ name: Build Workflow
 
 on:
   pull_request:
-    branches: "main"
-  push:
-    branches: "main"
-  
+    branches: "*"
 
 jobs:
 
-  Build:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up Go
       uses: actions/setup-go@v3.2.1
       with:
         go-version: 1.18
+
     - name: Build
       run: go build -v test.go
+
     - name: Test
       run: go test -v test.go
-  SonarCloudScan:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup SonarScan
-    - uses: sonarsource/sonarcloud-github-action@master
+      
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        projectBaseDir: .
-        args: >
+         projectBaseDir: .
+         args: >
           -Dsonar.organization=bahadoor009
           -Dsonar.projectKey=bahadoor009_github-actions-golang-test
 
