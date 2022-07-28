@@ -14,10 +14,8 @@ func TestDummFunc(t *testing.T) {
 	}
 
 	for _, test := range testcases {
-		if output, err := DummyFunc(test); !Compare(output, test * 100) && err == nil {
-			t.Errorf("Output %v not equal to expected %v", output, &test.expected_response)
-		} else if err != nil {
-			t.Error(err)
+		if output := DummyFunc(test); !Compare(output, test * 100) {
+			t.Errorf("Output %v not equal to expected %v", output)
 		}
 	}
 }
