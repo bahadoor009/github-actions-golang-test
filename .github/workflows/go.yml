@@ -17,10 +17,10 @@ jobs:
         go-version: 1.18
 
     - name: Build
-      run: go build -v test.go
+      run: go build -v main_test.go
 
     - name: Test
-      run: go test -v test.go
+      run: go test -v main.go
       
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
