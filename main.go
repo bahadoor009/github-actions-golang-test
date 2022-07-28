@@ -1,5 +1,5 @@
 package main
 
-func DummyFunc(num int) {
+func DummyFunc(num int)int {
 	return num * 100
 }
